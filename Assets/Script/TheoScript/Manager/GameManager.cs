@@ -22,10 +22,7 @@ public class GameManager : MonoBehaviour
         increaseDamageTaken = gameManagerSO._increaseDamageTaken;
         multiplicatorOfSoldiers = gameManagerSO._multiplicatorOfSoldiers;
         
-        foreach (var player in players)
-        {
-            player.playerSO = playerSO;
-        }
+
     }
     public void IncreasingDamageTaken()
     {

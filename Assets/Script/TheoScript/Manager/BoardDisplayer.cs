@@ -8,12 +8,9 @@ public class BoardDisplayer : MonoBehaviour
     [SerializeField] private int nbLines;
     [SerializeField] private int nbSlots;
     [SerializeField] private GameObject line;
-    public List<GameObject> players = new List<GameObject>();
+    public List<GameObject> players;
     
-    [SerializeField] private int minNbSlotsAvailable = 5;
-    [SerializeField] private int maxNbSlotsAvailable = 8;
-    [SerializeField] private GameObject slotForHand;
-    public List<Hand> hands;
+    
     
 
     private int lastNbLines = 0;
@@ -64,14 +61,6 @@ public class BoardDisplayer : MonoBehaviour
         }
     }
     
-    [ContextMenu("Reset Hand")]
-    public void ResetHands()
-    {
-        foreach (Hand hand in hands)
-        {
-            hand.slotForHand = slotForHand;
-            hand.ResetHand();
-        }
-    }
+    
 
 }

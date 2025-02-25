@@ -6,24 +6,16 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Hand : MonoBehaviour, IContainsSlots
+public class Hand : AContainsSlots
 {
     private int nbSlotsAvailable ;
 
     [HideInInspector] public int minNbSlotsAvailable;
     [HideInInspector] public int maxNbSlotsAvailable;
     [HideInInspector] public GameObject slotForHand;
-    [HideInInspector] public int slotInUse;
-
-    [SerializeField] private Transform[] _cardCanComesFrom; 
-    public Transform[] cardCanComesFrom => _cardCanComesFrom;
     
 
-    public bool ContainsSlot(Transform container)
-    {
-        return _cardCanComesFrom.Contains(container);
-    }
-
+    
     public void Awake()
     {
         nbSlotsAvailable = transform.childCount;

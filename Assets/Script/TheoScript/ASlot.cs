@@ -9,14 +9,10 @@ public abstract class ASlot : MonoBehaviour , IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        GameObject card = eventData.pointerDrag;
-        CardChangePosition(card);
+        CardChangePosition(eventData);
     }
 
-    protected virtual void CardChangePosition(GameObject card)
-    {
-        Debug.Log("CardChangePosition in Slot abstract class");
-    }
+    protected abstract void CardChangePosition(PointerEventData eventData);
 
     protected void SwapCard(GameObject card)
     {
@@ -33,10 +29,8 @@ public abstract class ASlot : MonoBehaviour , IDropHandler
         card.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
     }
 
-    public virtual void OnBeginDrag(PointerEventData eventData)
-    {
-        Debug.Log("ASlot_OnBeginDrag");
-    }
+    public abstract void OnBeginDrag(PointerEventData eventData);
+
 
     public abstract void RepairdCard(CardDragHandler card);
 
@@ -44,6 +38,8 @@ public abstract class ASlot : MonoBehaviour , IDropHandler
     {
         Debug.Log("GetSlotASlot");
     }
+    
+    public abstract void DestroyCard(PointerEventData eventData);
 
 }
 

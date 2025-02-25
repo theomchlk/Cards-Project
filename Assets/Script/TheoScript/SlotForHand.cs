@@ -8,51 +8,53 @@ using UnityEngine.UI;
 public class SlotForHand : ASlot
 {
     public bool occupied = false;
-    protected override void CardChangePosition(GameObject card)
+
+    protected override void CardChangePosition(PointerEventData eventData)
     {
-        CardDragHandler cardDragged = card.GetComponent<CardDragHandler>();
-        if (cardDragged.originalContainerSlot.GetComponent<IContainsSlots>().ContainsSlot(transform.parent))
+        CardDragHandler cardDragged = eventData.pointerDrag.GetComponent<CardDragHandler>();
+        if (cardDragged.canBeDragged)
         {
-            if (cardDragged.originalParent.GetComponent<SlotForHand>() != null)
+            if (cardDragged.originalContainerSlot.GetComponent<AContainsSlots>().ContainsSlot(transform.parent))
             {
-                if (occupied == false)
-                {   
-                    cardDragged.originalParent.GetComponent<SlotForHand>().occupied = false;
-                    CardGoesOn(card);
-                    occupied = true;
-                }
-                cardDragged.originalParent.GetComponent<CanvasGroup>().alpha = 1;
-            }
-            else
-            {
-                if (cardDragged.originalParentInRememberingTypeSlot != null)
-                {
-                    RepairdCard(cardDragged);
-                }
-                else
+                if (cardDragged.originalParent.GetComponent<SlotForHand>() != null)
                 {
                     if (occupied == false)
                     {
-                        CardGoesOn(card);
+                        cardDragged.originalParent.GetComponent<SlotForHand>().occupied = false;
+                        CardGoesOn(eventData.pointerDrag);
                         occupied = true;
-                        cardDragged.originalContainerSlot = transform.parent;
                     }
-                    
+
+                    cardDragged.originalParent.GetComponent<CanvasGroup>().alpha = 1;
+                }
+                else
+                {
+                    if (cardDragged.originalParentInRememberingTypeSlot != null)
+                    {
+                        RepairdCard(cardDragged);
+                    }
+                    else
+                    {
+                        if (occupied == false)
+                        {
+                            CardGoesOn(eventData.pointerDrag);
+                            occupied = true;
+                        }
+                    }
                 }
             }
         }
-        
     }
 
     public override void OnBeginDrag(PointerEventData eventData)
     {
-        
+
         CardDragHandler cardDragged = eventData.pointerDrag.GetComponent<CardDragHandler>();
+        cardDragged.originalContainerSlot = transform.parent;
         if (cardDragged.originalParentInRememberingTypeSlot != transform)
         {
             cardDragged.originalParentInRememberingTypeSlot = transform;
             transform.GetComponent<Image>().sprite = cardDragged.GetComponent<Image>().sprite;
-            Debug.Log("EtLa?");
         }
 
         transform.GetComponent<CanvasGroup>().alpha = 0.5f;
@@ -64,7 +66,14 @@ public class SlotForHand : ASlot
         cardDragged.originalParentInRememberingTypeSlot.GetComponent<CanvasGroup>().alpha = 1;
         cardDragged.transform.SetParent(cardDragged.originalParentInRememberingTypeSlot.transform);
         cardDragged.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-        
+
+    }
+
+    public override void DestroyCard(PointerEventData eventData)
+    {
+        occupied = false;
+        transform.GetComponent<CanvasGroup>().alpha = 1;
+        Destroy(eventData.pointerDrag);
     }
 
 
@@ -72,6 +81,7 @@ public class SlotForHand : ASlot
     {
         Debug.Log("GetSlotHand");
     }
+
 }
 /*
     public override void OnEndDrag(PointerEventData eventData)
@@ -109,8 +119,5 @@ public class SlotPlayer : Slot
     public void Fonc2(){
         Debug.Log("Fonction 2 de SlotPlayer")
     }                                
-}   
-
-Si j'ai un slot_1 avec comme script SlotPlayer, est ce que slot_1.GetComponent<Slot>().Fonc2(); fonctionne ?
-et est ce que slot_1.GetComponent<Slot>().Fonc1() fonctionne ?                                  
+}
 */

@@ -231,9 +231,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
   m_MinWidth: -1
-  m_MinHeight: -1
-  m_PreferredWidth: 60
-  m_PreferredHeight: 70
+  m_MinHeight: 70
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
@@ -353,7 +353,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7396035244114044713, guid: d6a85ea5d1454a34899107e62c229e59, type: 3}
       propertyPath: m_Name
-      value: Slot
+      value: SlotShop
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 74282233042062625, guid: d6a85ea5d1454a34899107e62c229e59, type: 3}
@@ -363,6 +363,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7396035244114044713, guid: d6a85ea5d1454a34899107e62c229e59, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7294983368802418166}
+    - targetCorrespondingSourceObject: {fileID: 7396035244114044713, guid: d6a85ea5d1454a34899107e62c229e59, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6409910026523348602}
   m_SourcePrefab: {fileID: 100100000, guid: d6a85ea5d1454a34899107e62c229e59, type: 3}
 --- !u!224 &280310577167223087 stripped
 RectTransform:
@@ -394,3 +397,15 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &6409910026523348602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4058636007674824461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 886b61247d6b2424ea423193760dcd0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

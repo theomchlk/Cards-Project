@@ -11,6 +11,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     public Transform originalParent;
     public Transform originalContainerSlot;
     public Transform originalParentInRememberingTypeSlot; //slot who need remember the card
+    public bool canBeDragged = true;
     private CanvasGroup canvasGroup;
     private Canvas canvas;
 
@@ -19,13 +20,12 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         canvas = GetComponentInParent<Canvas>();
-        originalContainerSlot = GetComponentInParent<IContainsSlots>().transform;
+
     }
     
     public void OnBeginDrag(PointerEventData eventData)
     {
         originalParent = transform.parent;
-        originalParent.GetComponent<ASlot>().GetSlot();
         originalParent.GetComponent<ASlot>().OnBeginDrag(eventData); //Delegation for slot
         transform.SetParent(canvas.transform);
         canvasGroup.blocksRaycasts = false;
@@ -33,17 +33,32 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public void OnDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        if (canBeDragged)
+        {
+            Vector2 localPoint;
+    
+
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                rectTransform.parent as RectTransform, eventData.position, eventData.pressEventCamera, out localPoint
+            );
+
+
+            rectTransform.anchoredPosition = localPoint;
+        }
+        
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         canvasGroup.blocksRaycasts = true;
         CardDragHandler cardDragged = eventData.pointerDrag.GetComponent<CardDragHandler>();
-        if (transform.parent == originalParent || cardDragged.transform.parent.GetComponent<ASlot>() == null)
+        if (transform.parent == originalParent || !cardDragged.canBeDragged || eventData.pointerDrag.transform.parent.GetComponent<ASlot>() == null)
         {
-            cardDragged.transform.SetParent(originalParent);
-            cardDragged.transform.parent.GetComponent<ASlot>().RepairdCard(cardDragged);
+            eventData.pointerDrag.transform.SetParent(originalParent); //obligatoire pour faire le Repair selon le slot parent
+            Debug.Log(canBeDragged);
+            Debug.Log(eventData.pointerDrag.transform.parent.GetComponent<ASlot>() == null);
+            eventData.pointerDrag.transform.parent.GetComponent<ASlot>().RepairdCard(cardDragged);
         }
     }
+    
 }

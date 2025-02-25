@@ -7,5 +7,4 @@ public class PlayerSO : ScriptableObject
 {
     public int _hp;
     public int _damageTaken;
-    public int _gold;
 }
