@@ -8,7 +8,7 @@ public class Shop : MonoBehaviour
     
     public void SetShopActive()
     {
-        if (gameObject.activeSelf == true)
+        if (gameObject.activeSelf)
         {
             gameObject.SetActive(false);
         }

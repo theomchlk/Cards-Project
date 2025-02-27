@@ -7000,6 +7000,7 @@ GameObject:
   - component: {fileID: 314544599}
   - component: {fileID: 314544598}
   - component: {fileID: 314544597}
+  - component: {fileID: 314544600}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -7070,7 +7071,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 314544598}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 314544600}
+        m_TargetAssemblyTypeName: ButtonReady, Assembly-CSharp
+        m_MethodName: SetReady
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 482410000}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: SetReady
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &314544598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7109,6 +7134,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 314544595}
   m_CullTransparentMesh: 1
+--- !u!114 &314544600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314544595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fa0cdd10804f9444bd74fb22912cacd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
+  ready: 0
+  colorDefault: {r: 1, g: 1, b: 1, a: 1}
+  colorPressed: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!1 &314795879
 GameObject:
   m_ObjectHideFlags: 0
@@ -9167,13 +9208,19 @@ MonoBehaviour:
   players:
   - {fileID: 537444614}
   playerSO: {fileID: 11400000, guid: 63fd08057545ec4448d0e99014aa4ed1, type: 2}
+  playerReadyButtons:
+  - {fileID: 859408697}
   gameManagerSO: {fileID: 11400000, guid: 501d51c4860bf484f8ab65e3b9061c59, type: 2}
+  timerManager: {fileID: 1399449599}
   nbRounds: 0
   timePreparation: 0
   timePlanification: 0
   numberOfStepsBeforeIncreaseDamageTaken: 3
   increaseDamageTaken: 2
   multiplicatorOfSoldiers: 0
+  nbOfPlayersReady: 0
+  currentState: 0
+  stateWasSet: 0
 --- !u!4 &482410001
 Transform:
   m_ObjectHideFlags: 0
@@ -9183,11 +9230,11 @@ Transform:
   m_GameObject: {fileID: 482409999}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -56.930817, y: -64.867096, z: 12.512736}
+  m_LocalPosition: {x: 491.5693, y: 240.80124, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1910985087}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &485575337
 GameObject:
@@ -14791,7 +14838,7 @@ GameObject:
   - component: {fileID: 859408700}
   - component: {fileID: 859408699}
   m_Layer: 5
-  m_Name: Timer
+  m_Name: ReadyButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15022,7 +15069,7 @@ GameObject:
   - component: {fileID: 874833254}
   - component: {fileID: 874833253}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Timer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22696,6 +22743,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1399393432}
   m_CullTransparentMesh: 1
+--- !u!1 &1399449598
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1399449600}
+  - component: {fileID: 1399449599}
+  m_Layer: 0
+  m_Name: TimerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1399449599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399449598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dfe46b1e7006184d92f58dafeb79c53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 482410000}
+  timerTextPlayers: []
+  timerText: {fileID: 0}
+  timeRemaining: 0
+--- !u!4 &1399449600
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399449598}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 749.6581, y: 76.927216, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1413463102
 GameObject:
   m_ObjectHideFlags: 0
@@ -31636,7 +31731,6 @@ Transform:
   - {fileID: 797651270}
   - {fileID: 1931752866}
   - {fileID: 773068704}
-  - {fileID: 482410001}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1917976302
@@ -35501,3 +35595,5 @@ SceneRoots:
   - {fileID: 214604717}
   - {fileID: 132381}
   - {fileID: 1910985087}
+  - {fileID: 482410001}
+  - {fileID: 1399449600}

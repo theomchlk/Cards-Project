@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Player : AContainsSlots
 {
-    
+
 
     public PlayerSO playerSO;
+    public bool ready = false;
+
     private int hp;
     private bool isDead;
 
@@ -17,11 +19,18 @@ public class Player : AContainsSlots
         hp = playerSO._hp;
 
     }
-    
+
 
     public void Losehp()
     {
         hp -= playerSO._damageTaken;
     }
-    
+
+    public void SetReadyPreparation()
+    {
+        ready = !ready;
+    }
 }
+
+
+
