@@ -17,18 +17,20 @@ public class TimerManager : MonoBehaviour
         if (timeRemaining > 0)
         {
             timeRemaining -= Time.deltaTime;
-        }                                                                       
+            int minutes = Mathf.FloorToInt(timeRemaining / 60);                  
+            int seconds = Mathf.FloorToInt(timeRemaining % 60);
+            timerText = $"{minutes:00}:{seconds:00}";
+            foreach (TextMeshProUGUI timeTextPlayer in timerTextPlayers)
+            {
+                timeTextPlayer.text = timerText;
+            }
+            
+        }
         else if (timeRemaining <= 0)
         {
             timeRemaining = 0;
-        }
-        int minutes = Mathf.FloorToInt(timeRemaining / 60);                  
-        int seconds = Mathf.FloorToInt(timeRemaining % 60);
-        Debug.Log(timerText);
-        timerText = $"{minutes:00}:{seconds:00}";
-        foreach (TextMeshProUGUI timeTextPlayer in timerTextPlayers)
-        {
-            timeTextPlayer.text = timerText;
+            gameManager.stateStep++;
+            gameManager.stateWasSet = false;
         }
     }
 }

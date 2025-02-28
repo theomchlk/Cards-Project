@@ -13,24 +13,22 @@ public class GameManager : MonoBehaviour
     public GameManagerSO gameManagerSO;
     public TimerManager timerManager;
     public int nbRounds;
-    public float timePreparation;
-    public float timePlanification;
     public int numberOfStepsBeforeIncreaseDamageTaken;
     public int increaseDamageTaken;
     public int multiplicatorOfSoldiers;
     
     //field for the game
 
+    public int playerStillAlive;
+
     public int nbOfPlayersReady = 0;
-    public enum GameState { Preparation, Planification, War }
-    public GameState currentState = GameState.Preparation;
+    public AStateGame[] statesGame;
+    public int stateStep = 0;
     public bool stateWasSet = false;
     private List<ReadyButton> readyButtons = new List<ReadyButton>();
     
     public void Awake()
     {
-        timePreparation = gameManagerSO._timePreparation;
-        timePlanification = gameManagerSO._timePlanification;
         numberOfStepsBeforeIncreaseDamageTaken = gameManagerSO._numberOfStepsBeforeIncreaseDamageTaken;
         increaseDamageTaken = gameManagerSO._increaseDamageTaken;
         multiplicatorOfSoldiers = gameManagerSO._multiplicatorOfSoldiers;
@@ -45,79 +43,54 @@ public class GameManager : MonoBehaviour
             readyButtons.Add(readyButton);
             
         }
-        
 
-        
-        
+        foreach (AStateGame stateGame in statesGame)
+        {
+            stateGame.timerManager = timerManager;
+        }
     }
+    
 
     public void Start()
     {
-
+        statesGame[stateStep].SetStateGame();
     }
 
     public void Update()
     {
-        if (currentState == GameState.Preparation)
+        /* Doit etre supprimer quand il y aura deux joueurs
+        if (playerStillAlive > 1)
         {
-            Preparation();
-            Debug.Log("Prep");
+            if (stateWasSet < statesGame.Length)
+            MakeStateGame();
         }
-
-        if (currentState == GameState.Planification)
+        */
+        if (stateStep >= statesGame.Length)
         {
-            Planification();
+            stateStep = 0;
         }
-
-        if (currentState == GameState.War)
-        {
-            Debug.Log("WAAAAR !");
-        }
+        MakeStateGame();
     }
 
-    public void Preparation()
+    public void MakeStateGame()
     {
-        if (!stateWasSet)
+        if (statesGame[stateStep].needCanvas)
         {
-            SetPreparation();
-            stateWasSet = true;
-        }
+            if (!stateWasSet)
+            {
+                statesGame[stateStep].SetStateGame();
+                ResetReadyButton();
+                nbOfPlayersReady = 0;
+                stateWasSet = true;
+            }
 
-        if (timerManager.timeRemaining < 0 || nbOfPlayersReady == players.Length)
-        {
-            currentState = GameState.Planification;
-            stateWasSet = false;
+            if (nbOfPlayersReady == players.Length)
+            {
+                timerManager.timeRemaining = 0;
+            }
         }
     }
     
-    public void Planification()
-    {
-        if (!stateWasSet)
-        {
-            SetPlanification();
-            stateWasSet = true;
-        }
-
-        if (timerManager.timeRemaining < 0 || nbOfPlayersReady == players.Length)
-        {
-            currentState = GameState.War;
-            stateWasSet = false;
-        }
-    }
-
-    public void SetPreparation()
-    {
-        timerManager.timeRemaining = timePreparation;
-        ResetReadyButton();
-        nbOfPlayersReady = 0;
-    }
-    
-    public void SetPlanification()
-    {
-        timerManager.timeRemaining = timePlanification;
-        ResetReadyButton();
-        nbOfPlayersReady = 0;
-    }
 
     public void ResetReadyButton()
     {

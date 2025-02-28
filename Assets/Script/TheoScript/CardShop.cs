@@ -12,7 +12,7 @@ public class CardShop : AContainsSlots, IDropHandler, IPointerEnterHandler, IPoi
     public TextMeshProUGUI textForWidgetGold;
     public int nbSlotShop;
     public int addSlotShopPrice;
-    public int multiplicatorSlotShopPrice;
+    public float multiplicatorSlotShopPrice;
     public int gold;
     public int gainGoldIfWin;
     public int gainGoldIfLose;

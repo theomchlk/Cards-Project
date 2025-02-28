@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -6,11 +7,18 @@ using UnityEngine.EventSystems;
 
 public class SlotForPlayer : ASlot
 {
+    public void Awake()
+    {
+        container = transform.parent.parent.GetComponent<AContainsSlots>();
+    }
+
     protected override void CardChangePosition(PointerEventData eventData)
     {
+        
+    
         CardDragHandler cardDragged = eventData.pointerDrag.GetComponent<CardDragHandler>();
         GameObject card = eventData.pointerDrag;
-        if (cardDragged.originalContainerSlot.GetComponent<AContainsSlots>().ContainsSlot(transform.parent.parent))
+        if (container.ContainsSlot(cardDragged.originalContainerSlot))
         {
             if (cardDragged.originalParent.GetComponent<SlotForPlayer>() != null)
             {

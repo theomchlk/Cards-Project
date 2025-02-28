@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -9,12 +10,17 @@ public class SlotForHand : ASlot
 {
     public bool occupied = false;
 
+    public void Awake()
+    {
+        container = transform.parent.GetComponent<AContainsSlots>();
+    }
+
     protected override void CardChangePosition(PointerEventData eventData)
     {
         CardDragHandler cardDragged = eventData.pointerDrag.GetComponent<CardDragHandler>();
         if (cardDragged.canBeDragged)
         {
-            if (cardDragged.originalContainerSlot.GetComponent<AContainsSlots>().ContainsSlot(transform.parent))
+            if (container.ContainsSlot(cardDragged.originalContainerSlot))
             {
                 if (cardDragged.originalParent.GetComponent<SlotForHand>() != null)
                 {

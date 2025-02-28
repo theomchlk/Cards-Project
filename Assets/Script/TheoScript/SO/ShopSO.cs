@@ -6,7 +6,7 @@ using UnityEngine;
 public class ShopSO : ScriptableObject
 {
     public int _addSlotShopPrice;
-    public int _multiplicatorSlotShopPrice;
+    public float _multiplicatorSlotShopPrice;
     public int _startingGold;
     public int _gainGoldIfWin;
     public int _gainGoldIfLose;

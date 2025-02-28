@@ -9,16 +9,17 @@ public class CardShopDisplayer : MonoBehaviour
     public ShopSO shopSO;
     public GameObject tableShop;
     public GameObject cardLine;
-    public List<Transform> shops;
+    public List<Transform> cardShops;
 
 
     public void Awake()
     {
-        foreach (Transform shop in shops)
+        foreach (Transform cardShop in cardShops)
         {
-            shop.GetComponent<CardShop>().shopSO = shopSO;
+            cardShop.parent.GetComponent<Shop>().shopSO = shopSO;
         }
     }
+
 
     public void Start()
     {
@@ -28,20 +29,20 @@ public class CardShopDisplayer : MonoBehaviour
     [ContextMenu("Update CardShop")]
     public void UpdateShop()
     {
-        foreach (Transform shop in shops)
+        foreach (Transform cardShop in cardShops)
         {
             
-            ClearShop(shop);
-            UpdateSlotShop(shop);
+            ClearShop(cardShop);
+            UpdateSlotShop(cardShop);
         }
     }
 
-    private void UpdateSlotShop(Transform shop)
+    private void UpdateSlotShop(Transform cardShop)
     {
         foreach (ListCard cardList in shopSO._cardsAvailable)
         {
             int i = 1;
-            GameObject newTableShop = Instantiate(tableShop, shop);
+            GameObject newTableShop = Instantiate(tableShop, cardShop);
             newTableShop.name = "CardLevel" + i;
             
             Debug.Log(newTableShop.transform.GetChild(0).GetComponent<TextMeshProUGUI>() != null);
@@ -72,13 +73,12 @@ public class CardShopDisplayer : MonoBehaviour
     }
 
     
-    [ContextMenu("Clear Shop")]
-    public void ClearShop(Transform shop)
+    private void ClearShop(Transform cardShop)
     {
         Debug.Log("Clear Shop");
-        for (int i = shop.childCount - 1; i >= 0; i--)
+        for (int i = cardShop.childCount - 1; i >= 0; i--)
         {
-            DestroyImmediate(shop.GetChild(i).gameObject);
+            DestroyImmediate(cardShop.GetChild(i).gameObject);
         }
     }
     

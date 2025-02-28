@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 public class Hand : AContainsSlots
 {
-    private int nbSlotsAvailable ;
+    [HideInInspector] public int nbSlotsAvailable ;
 
     [HideInInspector] public int minNbSlotsAvailable;
     [HideInInspector] public int maxNbSlotsAvailable;

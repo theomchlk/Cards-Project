@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a002e207d24216944aad068fa856bdbd, type: 3}
   m_Name: GameManager
   m_EditorClassIdentifier: 
-  _timePreparation: 90
-  _timePlanification: 30
+  _timePreparation: 10
+  _timePlanification: 5
   _numberOfStepsBeforeIncreaseDamageTaken: 3
   _increaseDamageTaken: 1
   _multiplicatorOfSoldiers: 1

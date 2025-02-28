@@ -8,11 +8,11 @@ using UnityEngine.EventSystems;
 public class SlotForShop : ASlot
 {
     [HideInInspector] public TextMeshProUGUI textForWidgetGold;
-    private CardShop shop;
+    private Shop shop;
     
     public void Awake()
     {
-        shop = transform.parent.parent.parent.parent.GetComponent<CardShop>();
+        shop = transform.parent.parent.parent.parent.parent.GetComponent<Shop>();
     }
 
     public void Start()
@@ -35,10 +35,9 @@ public class SlotForShop : ASlot
         {
             GameObject newCard = Instantiate(card, transform);
         }
-        Debug.Log(cardDragged.originalContainerSlot.GetComponent<CardShop>().gold); 
-        shop.gold -= card.GetComponent<CardLogic>().value;
-        textForWidgetGold.text = shop.gold.ToString();
-        Debug.Log(cardDragged.originalContainerSlot.GetComponent<CardShop>().gold); 
+        Debug.Log(cardDragged.originalContainerSlot.GetComponent<Shop>().gold); 
+        shop.Subtractgold(card.GetComponent<CardLogic>().value);
+        Debug.Log(cardDragged.originalContainerSlot.GetComponent<Shop>().gold); 
         if (shop.gold < 0)
         {
             cardDragged.canBeDragged = false;
@@ -49,12 +48,11 @@ public class SlotForShop : ASlot
     public override void RepairdCard(CardDragHandler cardDragged)
     {
         Debug.Log(cardDragged.originalContainerSlot);
-        shop.gold += cardDragged.GetComponent<CardLogic>().value;
-        textForWidgetGold.text = shop.gold.ToString();
+        shop.Addgold(cardDragged.GetComponent<CardLogic>().value);
         cardDragged.transform.SetParent(cardDragged.originalParent);
         cardDragged.canBeDragged = true;
         cardDragged.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-        Debug.Log(cardDragged.originalContainerSlot.GetComponent<CardShop>().gold);
+        Debug.Log(cardDragged.originalContainerSlot.GetComponent<Shop>().gold);
     }
 
     public override void DestroyCard(PointerEventData eventData)

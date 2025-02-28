@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public abstract class ASlot : MonoBehaviour , IDropHandler
 {
 
+    public AContainsSlots container;
     public void OnDrop(PointerEventData eventData)
     {
         CardChangePosition(eventData);

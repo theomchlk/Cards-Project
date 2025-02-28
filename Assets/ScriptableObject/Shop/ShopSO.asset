@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8199c75a2a7c7624bad09bfc78c15f5f, type: 3}
   m_Name: ShopSO
   m_EditorClassIdentifier: 
-  _addSlotShopPrice: 10
+  _addSlotShopPrice: 5
   _multiplicatorSlotShopPrice: 2
   _startingGold: 10
   _gainGoldIfWin: 10
