@@ -68,6 +68,11 @@ public class GameManager : MonoBehaviour
         if (stateStep >= statesGame.Length)
         {
             stateStep = 0;
+            nbRounds++;
+            foreach (Player player in players)
+            {
+                player.shop.Addgold(player.shop.gainGoldIfWin);
+            }
         }
         MakeStateGame();
     }
@@ -81,7 +86,16 @@ public class GameManager : MonoBehaviour
                 statesGame[stateStep].SetStateGame();
                 ResetReadyButton();
                 nbOfPlayersReady = 0;
-                stateWasSet = true;
+                if (statesGame[stateStep].inTransition)
+                {
+                    statesGame[stateStep].Transition();
+                }
+                else
+                {
+                    statesGame[stateStep].inTransition = true;
+                    stateWasSet = true;
+                }
+                
             }
 
             if (nbOfPlayersReady == players.Length)

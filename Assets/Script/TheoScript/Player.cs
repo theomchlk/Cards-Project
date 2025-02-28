@@ -7,6 +7,7 @@ public class Player : AContainsSlots
 
 
     public PlayerSO playerSO;
+    public Shop shop;
     public bool ready = false;
 
     private int hp;

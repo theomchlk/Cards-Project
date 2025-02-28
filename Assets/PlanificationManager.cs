@@ -11,7 +11,7 @@ public class PlanificationManager : AStateGame
 
     public void Awake()
     {
-        Debug.Log("Planification Manager");
+        transitionText = canvasGroupTransition.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         foreach (Shop shop in shops)
         {
             canvasGroups.Add(shop.GetComponent<CanvasGroup>());
@@ -20,6 +20,7 @@ public class PlanificationManager : AStateGame
     }
     public override void SetStateGame()
     {
+        transitionText.text = "Planification";
         timerManager.timeRemaining = time;
         foreach (CanvasGroup canvasGroup in canvasGroups)
         {
