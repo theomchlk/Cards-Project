@@ -6,37 +6,41 @@ using UnityEngine.UI;
 
 public class ReadyButton : MonoBehaviour
 {
-    public GameManager gameManager;
     public bool ready = false;
-    private Image buttonImage;
+    public Image buttonImage;
     public Color colorDefault = Color.white;
     public Color colorPressed = Color.grey;
-
-    public void Awake()
-    {
-        buttonImage = GetComponent<Image>();
-    }
+    
     
     public void SetReady()
     {
-        Debug.Log(gameManager);
         if (!ready)
         {
-            ready = true;
-            buttonImage.color = colorDefault;
-            gameManager.nbOfPlayersReady++;
-            
+            IsReady();
         }
         else
-        {
-            ready = false;
-            buttonImage.color = colorPressed;
-            gameManager.nbOfPlayersReady--;
+        {   
+            IsNotReady();
         }
+    }
+
+    public void IsReady()
+    {
+        ready = true;
+        buttonImage.color = colorPressed;
+        GameManager.instance.nbOfPlayersReady++;
+    }
+
+    public void IsNotReady()
+    {
+        ready = false;
+        buttonImage.color = colorDefault;
+        GameManager.instance.nbOfPlayersReady--;
     }
 
     public void ResetButton()
     {
         ready = false;
+        buttonImage.color = colorDefault;
     }
 }

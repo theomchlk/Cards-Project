@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CardSO", menuName = "Card/CardSO")]
 public class CardSO : ScriptableObject
 {
+    public GameObject _troup;
     public String _cardName;
     public String _cardDescription;
     public int _value;

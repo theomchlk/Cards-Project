@@ -1,16 +1,24 @@
+using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine.UI;
 public class BoardDisplayer : MonoBehaviour
 {
-    [SerializeField] private int nbLines;
-    [SerializeField] private int nbSlots;
+    public int nbLines;
+    public int nbSlots;
     [SerializeField] private GameObject line;
-    public List<GameObject> players;
-    
-    
+    public GameObject slot;
+    public Player[] players;
+    public MapManager mapManager;
+
+
+    public void Start()
+    {
+        UpdateBoard();
+    }
     
 
     private int lastNbLines = 0;
@@ -21,30 +29,35 @@ public class BoardDisplayer : MonoBehaviour
     [ContextMenu("UpdateBoard")]
     public void UpdateBoard()
     {
-        foreach (GameObject player in players)
+        mapManager.SetSpawnLocation(); //Create the same number of spawn location on each player field than the number of slot 
+        foreach (Player player in players)
         {
-            UpdateLines(player);
+            //UpdateLines(player);
+            ClearLines(player);
             UpdateSlots(player);
         }
     }
     
-    private void UpdateLines(GameObject player){
+    /* V1
+    private void UpdateLines(Player player){
         ClearLines(player);
         for (int i = 0; i < nbLines ; i++){
             GameObject newLine = Instantiate(line, player.transform);
             newLine.name = "Line_" + (i + 1);
+
             LineController lineController = newLine.GetComponent<LineController>();
             if (lineController != null){
                 lineController.ClearSlots();
                 lineController.AddSlots(nbSlots);
                 lastNbSlots++;
             }
-            
+
         }
         lastNbLines = nbLines;
     }
 
-    private void UpdateSlots(GameObject player){
+
+    private void UpdateSlots(Player player){
         for (int i = 0 ; i < nbLines ; i++){
             LineController lineController = player.transform.GetChild(i).GetComponent<LineController>();
             if (lineController != null){
@@ -53,11 +66,30 @@ public class BoardDisplayer : MonoBehaviour
             }
         }
     }
-
-    private void ClearLines(GameObject player){
-        Debug.Log(player.transform.childCount);
+    */
+    
+    private void ClearLines(Player player){
         for (int i = player.transform.childCount - 1 ; i >= 0 ; i--){
             DestroyImmediate(player.transform.GetChild(i).gameObject);
+        }
+    }
+
+    private void UpdateSlots(Player player)
+    {
+        for (int i = 0; i < nbLines; i++)
+        {
+            GameObject newLineController = Instantiate(line, player.transform);
+            newLineController.name = "Line_" + (i + 1);
+            for (int j = 0; j < nbSlots; j++)
+            {
+                GameObject newSlot = Instantiate(slot, newLineController.transform);
+                newSlot.name = "Slot_" + (j + 1);
+                if (newSlot.GetComponent<SlotForPlayer>() != null)
+                {
+                    newSlot.GetComponent<SlotForPlayer>().position = new Tuple<int, int>(i, j);
+                }
+                Debug.Log(newSlot.GetComponent<SlotForPlayer>().position);
+            }
         }
     }
     

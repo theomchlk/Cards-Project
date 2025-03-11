@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 
-public class Shop : AContainsSlots, IDropHandler, IPointerEnterHandler, IPointerExitHandler
+public class Shop : AShop, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public ShopSO shopSO;
     public TextMeshProUGUI textForShop;
@@ -16,9 +16,11 @@ public class Shop : AContainsSlots, IDropHandler, IPointerEnterHandler, IPointer
     public int addSlotShopPrice;
     public float multiplicatorSlotShopPrice;
     public int gold;
-    public int gainGoldIfWin;
-    public int gainGoldIfLose;
-    public List<ListCard> cardsAvailable;
+    
+
+
+    public int goldInEndRound;
+    public int nbMills;
     
     //field for widget
     
@@ -26,18 +28,14 @@ public class Shop : AContainsSlots, IDropHandler, IPointerEnterHandler, IPointer
     
     // field from this script
     
-    private CanvasGroup canvasGroup;
+    public CanvasGroup canvasGroup;
 
     public void Awake()
     {
         addSlotShopPrice = shopSO._addSlotShopPrice;
         multiplicatorSlotShopPrice = shopSO._multiplicatorSlotShopPrice;
         gold = shopSO._startingGold;
-        gainGoldIfWin = shopSO._gainGoldIfWin;
-        gainGoldIfLose = shopSO._gainGoldIfLose;
-        cardsAvailable = shopSO._cardsAvailable;
         
-        canvasGroup = GetComponent<CanvasGroup>();
         
         
     }
@@ -85,7 +83,7 @@ public class Shop : AContainsSlots, IDropHandler, IPointerEnterHandler, IPointer
                     textForShop.gameObject.SetActive(false);
                     transform.GetComponent<CanvasGroup>().alpha = 1;
                     Debug.Log(gold);
-                    cardDragged.originalParent.GetComponent<ASlot>().DestroyCard(eventData);
+                    cardDragged.originalParent.GetComponent<ACardSlot>().DestroyCard(eventData);
                 }
             }
             
@@ -106,6 +104,22 @@ public class Shop : AContainsSlots, IDropHandler, IPointerEnterHandler, IPointer
         textForWidgetGold.text = gold.ToString();
     }
 
+    public override void GainIfWin()
+    {
+        goldInEndRound = shopSO._gainGoldIfWin;
+        GainGoldInEndRound();
+    }
+
+    public override void GainIfLose()
+    {
+        goldInEndRound = shopSO._gainGoldIfLose;
+        GainGoldInEndRound();
+    }
+
+    public void GainGoldInEndRound()
+    {
+        Addgold(nbMills * shopSO._goldByMill + goldInEndRound);
+    }
 
     
 }

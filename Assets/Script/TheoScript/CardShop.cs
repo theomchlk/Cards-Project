@@ -75,7 +75,7 @@ public class CardShop : AContainsSlots, IDropHandler, IPointerEnterHandler, IPoi
                     textForSale.gameObject.SetActive(false);
                     transform.GetComponent<CanvasGroup>().alpha = 1;
                     Debug.Log(gold);
-                    cardDragged.originalParent.GetComponent<ASlot>().DestroyCard(eventData);
+                    cardDragged.originalParent.GetComponent<ACardSlot>().DestroyCard(eventData);
                 }
             }
             

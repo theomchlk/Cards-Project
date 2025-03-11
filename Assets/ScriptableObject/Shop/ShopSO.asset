@@ -17,6 +17,7 @@ MonoBehaviour:
   _startingGold: 10
   _gainGoldIfWin: 10
   _gainGoldIfLose: 7
+  _goldByMill: 0
   _cardsAvailable:
   - {fileID: 11400000, guid: 18a4a8b0ce2704248a63dd4ca2753a70, type: 2}
   - {fileID: 11400000, guid: 18a4a8b0ce2704248a63dd4ca2753a70, type: 2}

@@ -26,7 +26,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     public void OnBeginDrag(PointerEventData eventData)
     {
         originalParent = transform.parent;
-        originalParent.GetComponent<ASlot>().OnBeginDrag(eventData); //Delegation for slot
+        originalParent.GetComponent<ACardSlot>().OnBeginDrag(eventData); //Delegation for slot
         transform.SetParent(canvas.transform);
         canvasGroup.blocksRaycasts = false;
     }
@@ -52,12 +52,12 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     {
         canvasGroup.blocksRaycasts = true;
         CardDragHandler cardDragged = eventData.pointerDrag.GetComponent<CardDragHandler>();
-        if (transform.parent == originalParent || !cardDragged.canBeDragged || eventData.pointerDrag.transform.parent.GetComponent<ASlot>() == null)
+        if (transform.parent == originalParent || !cardDragged.canBeDragged || eventData.pointerDrag.transform.parent.GetComponent<ACardSlot>() == null)
         {
             eventData.pointerDrag.transform.SetParent(originalParent); //obligatoire pour faire le Repair selon le slot parent
             Debug.Log(canBeDragged);
-            Debug.Log(eventData.pointerDrag.transform.parent.GetComponent<ASlot>() == null);
-            eventData.pointerDrag.transform.parent.GetComponent<ASlot>().RepairdCard(cardDragged);
+            Debug.Log(eventData.pointerDrag.transform.parent.GetComponent<ACardSlot>() == null);
+            eventData.pointerDrag.transform.parent.GetComponent<ACardSlot>().RepairdCard(cardDragged);
         }
     }
     

@@ -10,6 +10,7 @@ public class ShopSO : ScriptableObject
     public int _startingGold;
     public int _gainGoldIfWin;
     public int _gainGoldIfLose;
+    public int _goldByMill;
     public List<ListCard> _cardsAvailable;
 
 }

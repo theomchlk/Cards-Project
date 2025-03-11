@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class LineController : MonoBehaviour
 {
-    [SerializeField] private GameObject slotForHand;
+    [SerializeField] private GameObject slotForPlayer;
 
     public void AddSlots(int nbSlots){
         for (int i = 0 ; i < nbSlots ; i++)
         {
-            GameObject newSlot = Instantiate(slotForHand, transform);
+            GameObject newSlot = Instantiate(slotForPlayer, transform);
             newSlot.name = "Slot_" + (i + 1);
         }
     }
